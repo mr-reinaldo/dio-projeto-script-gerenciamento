@@ -41,6 +41,7 @@ function grupo_existe() {
         echo -e "${REDC}Criando grupo ${1}...${NC}"
         groupadd "${1}" &>/dev/null
         codigo_de_retorno
+        lista_grupos+=("${1}")
         echo -e "${GREENC}Grupo ${1} criado com sucesso!${NC}"
     fi
 }
@@ -55,6 +56,7 @@ function usuario_existe() {
         echo -e "${REDC}Criando usuário ${1}...${NC}"
         useradd ${1} -m -s /bin/bash -p "${2}" -G "${3}" &>/dev/null
         codigo_de_retorno
+        lista_usuarios+=("${1}")
         echo -e "${GREENC}Usuário ${1} criado com sucesso!${NC}"
     fi
 }
@@ -80,8 +82,6 @@ function criar_usuarios() {
     grupo_existe "${grupo}"
     hash_senha=$(openssl passwd -6 "${senha}")
     usuario_existe "${usuario}" "${hash_senha}" "${grupo}"
-    lista_usuarios+=("${usuario}")
-    lista_grupos+=("${grupo}")
 
 }
 
@@ -107,7 +107,7 @@ function permissoes_diretorios() {
         fi
     done
 
-    select usuario in "${lista_usuarios[@]}"; do
+    select usuario in "root ${lista_usuarios[@]}"; do
         if [ -z "${usuario}" ]; then
             echo -e "${REDC}Opção inválida!${NC}"
         else
