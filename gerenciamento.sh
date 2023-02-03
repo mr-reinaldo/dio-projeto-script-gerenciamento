@@ -78,7 +78,7 @@ function criar_usuarios() {
     read -p "Digite a senha do usuário: " senha
     read -p "Digite o nome do grupo: " grupo
     grupo_existe "${grupo}"
-    hash_senha=$(openssl passwd -crypt "${senha}")
+    hash_senha=$(openssl passwd -6 "${senha}")
     usuario_existe "${usuario}" "${hash_senha}" "${grupo}"
     lista_usuarios+=("${usuario}")
     lista_grupos+=("${grupo}")
