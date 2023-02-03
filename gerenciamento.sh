@@ -10,9 +10,9 @@ GREENC='\033[0;32m'
 NC='\033[0m'
 
 # Variáveis
-listar_diretorios=() # Array para armazenar os diretórios criados.
-lista_usuarios=()    # Array para armazenar os usuários criados.
-lista_grupos=()      # Array para armazenar os grupos criados.
+listar_diretorios=()    # Array para armazenar os diretórios criados.
+lista_usuarios=("root") # Array para armazenar os usuários criados.
+lista_grupos=()         # Array para armazenar os grupos criados.
 
 # Funções de verificação de root
 function eh_root() {
@@ -107,7 +107,8 @@ function permissoes_diretorios() {
         fi
     done
 
-    select usuario in "root ${lista_usuarios[@]}"; do
+    echo -e "${REDC}Selecione o usuário dono do diretório ${diretorio}!${NC}"
+    select usuario in "${lista_usuarios[@]}"; do
         if [ -z "${usuario}" ]; then
             echo -e "${REDC}Opção inválida!${NC}"
         else
@@ -115,6 +116,7 @@ function permissoes_diretorios() {
         fi
     done
 
+    echo -e "${REDC}Selecione o grupo dono do diretório ${diretorio}!${NC}"
     select grupo in "${lista_grupos[@]}"; do
         if [ -z "${grupo}" ]; then
             echo -e "${REDC}Opção inválida!${NC}"
@@ -123,7 +125,7 @@ function permissoes_diretorios() {
         fi
     done
 
-    read -p "Digite as permissões: " permissao
+    read -p "Digite as permissões ex: 755: " permissao
 
     chown "${usuario}":"${grupo}" "${diretorio}"
     codigo_de_retorno
