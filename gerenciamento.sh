@@ -12,7 +12,7 @@ NC='\033[0m'
 # Variáveis
 listar_diretorios=()    # Array para armazenar os diretórios criados.
 lista_usuarios=("root") # Array para armazenar os usuários criados.
-lista_grupos=()         # Array para armazenar os grupos criados.
+lista_grupos=("root")   # Array para armazenar os grupos criados.
 
 # Funções de verificação de root
 function eh_root() {
